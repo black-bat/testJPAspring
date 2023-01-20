@@ -15,7 +15,10 @@ public class EmployeeModel {
     private String gender;
     private String email;
     private java.sql.Date dateBirth;
-    private List<PetModel>petModels;
+    private List<PetModel> petModels;
+
+    private List<PhoneModel> phoneModels;
+    private CountryModel countryModel;
 
     public EmployeeModel() {
     }
@@ -36,6 +39,8 @@ public class EmployeeModel {
         employeeModel.setGender(employee.getGender());
         employeeModel.setEmail(employee.getEmail());
         employeeModel.setDateBirth(employee.getDateBirth());
+        employeeModel.setCountryModel(CountryModel.toModel(employee.getCountry()));
+        employeeModel.setPhoneModels(employee.getPhones().stream().map(PhoneModel::toModel).collect(Collectors.toList()));
         employeeModel.setPetModels(employee.getPets().stream().map(PetModel::toModel).collect(Collectors.toList()));
         return employeeModel;
     }
@@ -94,5 +99,21 @@ public class EmployeeModel {
 
     public void setPetModels(List<PetModel> petModels) {
         this.petModels = petModels;
+    }
+
+    public CountryModel getCountryModel() {
+        return countryModel;
+    }
+
+    public void setCountryModel(CountryModel countryModel) {
+        this.countryModel = countryModel;
+    }
+
+    public List<PhoneModel> getPhoneModels() {
+        return phoneModels;
+    }
+
+    public void setPhoneModels(List<PhoneModel> phoneModels) {
+        this.phoneModels = phoneModels;
     }
 }
