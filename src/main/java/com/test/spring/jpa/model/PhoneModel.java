@@ -2,16 +2,16 @@ package com.test.spring.jpa.model;
 
 import com.test.spring.jpa.entity.Pet;
 import com.test.spring.jpa.entity.Phone;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@NoArgsConstructor
 public class PhoneModel {
     private int id;
     private String number;
-
-    public PhoneModel() {
-    }
 
     public static PhoneModel toModel(Phone phone) {
         PhoneModel phoneModel = new PhoneModel();
@@ -26,21 +26,5 @@ public class PhoneModel {
             phoneModels.add(PhoneModel.toModel(phone));
         }
         return phoneModels;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 }

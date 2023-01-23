@@ -1,8 +1,12 @@
 package com.test.spring.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Pet {
     @Id
     @GeneratedValue
@@ -14,35 +18,8 @@ public class Pet {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public Pet() {
-    }
-
     public Pet(String view) {
         this.view = view;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getView() {
-        return view;
-    }
-
-    public void setView(String view) {
-        this.view = view;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     @Override

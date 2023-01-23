@@ -1,8 +1,12 @@
 package com.test.spring.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Country {
 
     @Id
@@ -14,35 +18,8 @@ public class Country {
     CascadeType.MERGE,CascadeType.REFRESH})
     private Employee employee;
 
-    public Country() {
-    }
-
     public Country(String country) {
         this.country = country;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
 
     @Override

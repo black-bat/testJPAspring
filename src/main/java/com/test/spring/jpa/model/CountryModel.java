@@ -2,17 +2,17 @@ package com.test.spring.jpa.model;
 
 import com.test.spring.jpa.entity.Country;
 import com.test.spring.jpa.entity.Pet;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@NoArgsConstructor
 public class CountryModel {
 
     private int id;
     private String country;
-
-    public CountryModel() {
-    }
 
     public static CountryModel toModel(Country country) {
         CountryModel countryModel = new CountryModel();
@@ -27,21 +27,5 @@ public class CountryModel {
             countryModels.add(CountryModel.toModel(country1));
         }
         return countryModels;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 }

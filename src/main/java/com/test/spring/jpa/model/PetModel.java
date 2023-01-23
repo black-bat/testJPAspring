@@ -2,17 +2,17 @@ package com.test.spring.jpa.model;
 
 import com.test.spring.jpa.entity.Employee;
 import com.test.spring.jpa.entity.Pet;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@NoArgsConstructor
 public class PetModel {
 
     private int id;
     private String view;
-
-    public PetModel() {
-    }
 
     public static PetModel toModel(Pet pet) {
         PetModel petModel = new PetModel();
@@ -27,21 +27,5 @@ public class PetModel {
             petModels.add(PetModel.toModel(pet));
         }
         return petModels;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getView() {
-        return view;
-    }
-
-    public void setView(String view) {
-        this.view = view;
     }
 }
