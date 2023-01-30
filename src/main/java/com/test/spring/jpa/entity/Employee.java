@@ -53,6 +53,15 @@ public class Employee {
         this.dateBirth = dateBirth;
     }
 
+    public void setPets(List<Pet> pets) {
+        if (pets != null) {
+            pets.forEach(a -> {
+                a.setEmployee(this);
+            });
+        }
+        this.pets = pets;
+    }
+
     @Override
     public String toString() {
         return "\nEmployee{" +

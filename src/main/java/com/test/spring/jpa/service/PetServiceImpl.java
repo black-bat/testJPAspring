@@ -37,15 +37,14 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public boolean updatePetById(Pet pet, int id) {
+    public Pet updatePetById(Pet pet, int id) {
         if (petRepository.existsById(id)) {
             Pet pet1 = petRepository.findById(id).get();
             pet1.setId(pet.getId());
-            pet1.setView(pet1.getView());
-            petRepository.save(pet1);
-            return true;
+            pet1.setView(pet.getView());
+            return petRepository.save(pet1);
         }
-        return false;
+        return null;
     }
 
     @Override

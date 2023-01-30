@@ -1,8 +1,7 @@
 package com.test.spring.jpa.controller;
 
-import com.test.spring.jpa.entity.Employee;
 import com.test.spring.jpa.entity.Pet;
-import com.test.spring.jpa.model.EmployeeModel;
+import com.test.spring.jpa.exception.ResourceNotFoundException;
 import com.test.spring.jpa.model.PetModel;
 import com.test.spring.jpa.service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,43 +23,39 @@ public class PetController {
         final List<Pet> pets = petService.readAll();
         return pets != null && !pets.isEmpty()
                 ? new ResponseEntity<>(PetModel.readAllModel(pets), HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(value = "/pets/{id}")
-    public PetModel read(@PathVariable(name = "id") int id) {
-        final Pet pet = petService.read(id);
-        return PetModel.toModel(pet);
-    }
-
-    @PostMapping
-    public ResponseEntity createPet(@RequestBody Pet pet,
-                                    @RequestParam int id) {
+    public ResponseEntity<PetModel> read(@PathVariable(name = "id") int id) {
         try {
-            return ResponseEntity.ok(petService.create(pet, id));
-        } catch ( Exception e ) {
-
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            return new ResponseEntity<>(PetModel.toModel(petService.read(id)), HttpStatus.OK);
+        } catch ( ResourceNotFoundException e ) {
+            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
         }
     }
 
-    @PutMapping
-    public ResponseEntity completePet(@RequestBody Pet pet,
-                                      @RequestParam int id) {
-        try {
-            return ResponseEntity.ok(petService.updatePetById(pet, id));
-        } catch ( Exception e ) {
+    @PostMapping
+    public ResponseEntity<PetModel> createPet(@RequestBody Pet pet,
+                                              @RequestParam int id) {
+        PetModel petModel = PetModel.toModel(petService.create(pet, id));
+        return new ResponseEntity(petModel, HttpStatus.CREATED);
+    }
 
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+    @PutMapping
+    public ResponseEntity<PetModel> completePet(@RequestBody Pet pet,
+                                                @RequestParam int id) {
+        try {
+            return new ResponseEntity<>(PetModel.toModel(petService.updatePetById(pet, id)), HttpStatus.OK);
+        } catch ( Exception e ) {
+            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
         }
     }
 
     @DeleteMapping(value = "/pets/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = petService.deleteById(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<HttpStatus> delete(@PathVariable(name = "id") int id) {
+        petService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 
