@@ -20,7 +20,7 @@ public class PetController {
 
     @GetMapping(value = "/pets")
     public ResponseEntity<List<PetModel>> read() {
-        final List<Pet> pets = petService.readAll();
+        List<Pet> pets = petService.readAll();
         return pets != null && !pets.isEmpty()
                 ? new ResponseEntity<>(PetModel.readAllModel(pets), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -31,7 +31,7 @@ public class PetController {
         try {
             return new ResponseEntity<>(PetModel.toModel(petService.read(id)), HttpStatus.OK);
         } catch ( ResourceNotFoundException e ) {
-            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+            throw new ResourceNotFoundException("Not found Pet with id = " + id);
         }
     }
 
@@ -48,7 +48,7 @@ public class PetController {
         try {
             return new ResponseEntity<>(PetModel.toModel(petService.updatePetById(pet, id)), HttpStatus.OK);
         } catch ( Exception e ) {
-            throw new ResourceNotFoundException("Not found Tutorial with id = " + id);
+            throw new ResourceNotFoundException("Not found Pet with id = " + id);
         }
     }
 

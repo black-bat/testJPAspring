@@ -3,7 +3,6 @@ package com.test.spring.jpa.controller;
 import com.test.spring.jpa.entity.Employee;
 import com.test.spring.jpa.model.EmployeeModel;
 import com.test.spring.jpa.service.EmployeeService;
-import com.test.spring.jpa.service.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
