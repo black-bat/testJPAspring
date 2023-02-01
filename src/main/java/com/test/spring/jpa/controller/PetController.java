@@ -19,7 +19,7 @@ public class PetController {
     PetService petService;
 
     @GetMapping(value = "/pets")
-    public ResponseEntity<List<PetModel>> read() {
+    public ResponseEntity<List<PetModel>> readPets() {
         List<Pet> pets = petService.readAll();
         return pets != null && !pets.isEmpty()
                 ? new ResponseEntity<>(PetModel.readAllModel(pets), HttpStatus.OK)

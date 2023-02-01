@@ -1,6 +1,7 @@
 package com.test.spring.jpa.service;
 
 import com.test.spring.jpa.entity.Employee;
+import com.test.spring.jpa.entity.Pet;
 import com.test.spring.jpa.entity.Phone;
 import com.test.spring.jpa.repository.EmployeeRepository;
 import com.test.spring.jpa.repository.PhoneRepository;
@@ -32,15 +33,19 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    public boolean updatePhoneById(Phone phone, int id) {
+    public Phone read(int id) {
+        return phoneRepository.findById(id).get();
+    }
+
+    @Override
+    public Phone updatePhoneById(Phone phone, int id) {
         if (phoneRepository.existsById(id)) {
             Phone phone1 = phoneRepository.findById(id).get();
             phone1.setId(phone.getId());
             phone1.setNumber(phone.getNumber());
-            phoneRepository.save(phone1);
-            return true;
+            return phoneRepository.save(phone1);
         }
-        return false;
+        return null;
     }
 
     @Override

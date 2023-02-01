@@ -1,6 +1,7 @@
 package com.test.spring.jpa.controller;
 
 import com.test.spring.jpa.entity.Phone;
+import com.test.spring.jpa.exception.ResourceNotFoundException;
 import com.test.spring.jpa.model.PhoneModel;
 import com.test.spring.jpa.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,39 +19,42 @@ public class PhoneController {
 
     @GetMapping(value = "/readAll")
     public ResponseEntity<List<PhoneModel>> read() {
-        final List<Phone> phones = phoneService.readAll();
+        List<Phone> phones = phoneService.readAll();
         return phones != null && !phones.isEmpty()
                 ? new ResponseEntity<>(PhoneModel.readAllModel(phones), HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(value = "/phone/{id}")
+    public ResponseEntity<PhoneModel> readById(@PathVariable(name = "id") int id) {
+        try {
+            return new ResponseEntity<>(PhoneModel.toModel(phoneService.read(id)), HttpStatus.OK);
+        } catch ( ResourceNotFoundException e ) {
+            throw new ResourceNotFoundException("Not found Phone with id = " + id);
+        }
     }
 
     @PostMapping
-    public ResponseEntity createPhone(@RequestBody Phone phone,
-                                      @RequestParam int id) {
+    public ResponseEntity<PhoneModel> createPhone(@RequestBody Phone phone,
+                                                  @RequestParam int id) {
         try {
-            return ResponseEntity.ok(phoneService.create(phone, id));
+            return new ResponseEntity(PhoneModel.toModel(phoneService.create(phone, id)), HttpStatus.OK);
         } catch ( Exception e ) {
-
-            return ResponseEntity.badRequest().body("Произошла ошибка");
+            throw new ResourceNotFoundException("Not found Phone with id = " + id);
         }
     }
 
     @PutMapping
-    public ResponseEntity completePet(@RequestBody Phone phone,
-                                      @RequestParam int id) {
-        try {
-            return ResponseEntity.ok(phoneService.updatePhoneById(phone, id));
-        } catch ( Exception e ) {
+    public ResponseEntity<PhoneModel> completePhone(@RequestBody Phone phone,
+                                                    @RequestParam int id) {
+        PhoneModel phoneModel = PhoneModel.toModel(phoneService.updatePhoneById(phone, id));
+        return new ResponseEntity(phoneModel, HttpStatus.CREATED);
 
-            return ResponseEntity.badRequest().body("Произошла ошибка");
-        }
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
-        final boolean deleted = phoneService.deleteById(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        phoneService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }
