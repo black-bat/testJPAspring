@@ -1,6 +1,7 @@
 package com.test.spring.jpa.controller;
 
 import com.test.spring.jpa.entity.Employee;
+import com.test.spring.jpa.exception.ResourceNotFoundException;
 import com.test.spring.jpa.model.EmployeeModel;
 import com.test.spring.jpa.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,8 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/employees")
-    public ResponseEntity<?> create(@RequestBody Employee employee) {
-        employeeService.create(employee);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<EmployeeModel> create(@RequestBody Employee employee) {
+        return new ResponseEntity<>(EmployeeModel.toModel(employeeService.create(employee)), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/employees")
@@ -43,18 +43,16 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/employees/{id}")
-    public EmployeeModel read(@PathVariable(name = "id") int id) {
+    public ResponseEntity<EmployeeModel> readById(@PathVariable(name = "id") int id) {
         final Employee employee = employeeService.read(id);
-        return EmployeeModel.toModel(employee);
+        return employee != null
+                ? new ResponseEntity<>(EmployeeModel.toModel(employee), HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping(value = "/employees/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody Employee employee) {
-        final boolean updated = employeeService.updateEmployeeById(employee, id);
-
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<EmployeeModel> update(@PathVariable(name = "id") int id, @RequestBody Employee employee) {
+        return new ResponseEntity<>(EmployeeModel.toModel(employeeService.updateEmployeeById(employee, id)), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/employees/{id}")

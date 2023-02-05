@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    void create(Employee employee);
+    Employee create(Employee employee);
 
     List<Employee> readAll();
 
@@ -15,7 +15,7 @@ public interface EmployeeService {
 
     Employee read(int id);
 
-    boolean updateEmployeeById(Employee employee, int id);
+    Employee updateEmployeeById(Employee employee, int id);
 
     boolean deleteById(int id);
 }

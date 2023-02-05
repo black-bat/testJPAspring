@@ -39,7 +39,7 @@ public class PhoneController {
                                                   @RequestParam int id) {
         try {
             return new ResponseEntity(PhoneModel.toModel(phoneService.create(phone, id)), HttpStatus.OK);
-        } catch ( Exception e ) {
+        } catch ( ResourceNotFoundException e ) {
             throw new ResourceNotFoundException("Not found Phone with id = " + id);
         }
     }
