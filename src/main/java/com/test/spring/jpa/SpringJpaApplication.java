@@ -9,9 +9,12 @@ import com.test.spring.jpa.entity.Employee;
 //import com.test.spring.jpa.repository.CountryRepository;
 import com.test.spring.jpa.entity.Pet;
 import com.test.spring.jpa.entity.Phone;
+import com.test.spring.jpa.repository.CountryRepository;
 import com.test.spring.jpa.repository.EmployeeRepository;
 //import com.test.spring.jpa.repository.PetRepository;
 //import com.test.spring.jpa.repository.PhoneRepository;
+import com.test.spring.jpa.repository.PetRepository;
+import com.test.spring.jpa.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,13 +40,13 @@ public class SpringJpaApplication implements CommandLineRunner {
     @Autowired
     EmployeeRepository repository;
 
-//    @Autowired
-//    CountryRepository repositoryCountry;
-//    @Autowired
-//    private PhoneRepository phoneRepository;
+    @Autowired
+    CountryRepository repositoryCountry;
+    @Autowired
+    private PhoneRepository phoneRepository;
 
-//    @Autowired
-//    private PetRepository petRepository;
+    @Autowired
+    private PetRepository petRepository;
 
 
     @Override
